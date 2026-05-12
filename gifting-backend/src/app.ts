@@ -31,6 +31,11 @@ export function createApp() {
   );
   app.use(express.json({ limit: "1mb" }));
 
+  // Lightweight health check — no DB dependency
+  app.get("/api/health", (_req, res) => {
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
   // All app routes under /api
   app.use("/api", routes);
 
