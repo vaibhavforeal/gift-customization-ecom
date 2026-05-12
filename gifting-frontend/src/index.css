@@ -1,0 +1,418 @@
+/* ================================================================
+   Kasturi — Design System
+   Ported from UI prototypes (terracotta / artisanal earth-tone)
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+/* ---------- Color Tokens ---------- */
+:root {
+  --primary: #9c3e22;
+  --on-primary: #ffffff;
+  --primary-container: #bc5637;
+  --on-primary-container: #fffbff;
+  --secondary: #984543;
+  --on-secondary: #ffffff;
+  --secondary-container: #fe9693;
+  --on-secondary-container: #782c2c;
+  --tertiary: #725818;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #8c712f;
+  --on-tertiary-container: #fffbff;
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+  --background: #fff8f6;
+  --on-background: #231916;
+  --surface: #fff8f6;
+  --on-surface: #231916;
+  --surface-variant: #f2ded9;
+  --on-surface-variant: #56423d;
+  --outline: #8a726b;
+  --outline-variant: #ddc0b9;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #fff1ed;
+  --surface-container: #feeae5;
+  --surface-container-high: #f8e4df;
+  --surface-container-highest: #f2ded9;
+  --surface-dim: #e9d6d1;
+  --surface-bright: #fff8f6;
+  --surface-tint: #9f4024;
+  --inverse-surface: #392e2b;
+  --inverse-on-surface: #ffede8;
+  --inverse-primary: #ffb5a0;
+  --primary-fixed: #ffdbd1;
+  --primary-fixed-dim: #ffb5a0;
+  --secondary-fixed: #ffdad8;
+  --secondary-fixed-dim: #ffb3b0;
+  --tertiary-fixed: #ffdf9b;
+  --tertiary-fixed-dim: #e4c278;
+  --on-primary-fixed: #3b0900;
+  --on-secondary-fixed: #3f0207;
+  --on-tertiary-fixed: #251a00;
+
+  /* Spacing */
+  --margin-desktop: 64px;
+  --margin-mobile: 20px;
+  --stack-lg: 48px;
+  --stack-md: 24px;
+  --stack-sm: 12px;
+  --gutter: 24px;
+  --unit: 4px;
+  --container-max: 1280px;
+
+  /* Border Radius */
+  --radius: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--on-background);
+  background-color: var(--background);
+  min-height: 100dvh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---------- Typography ---------- */
+.font-display-lg {
+  font-family: 'EB Garamond', serif;
+  font-size: 48px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+.font-display-lg-mobile {
+  font-family: 'EB Garamond', serif;
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.font-headline-lg {
+  font-family: 'EB Garamond', serif;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.font-headline-md {
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.font-body-lg {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.font-body-md {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.font-label-md {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.font-caption {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* ---------- Material Symbols ---------- */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* ---------- Utility Shadows ---------- */
+.shadow-ambient {
+  box-shadow: 0 12px 24px -4px rgba(198, 93, 62, 0.04), 0 4px 8px -2px rgba(198, 93, 62, 0.02);
+}
+
+.shadow-ambient-sm {
+  box-shadow: 0 4px 12px -2px rgba(198, 93, 62, 0.03);
+}
+
+.tactile-shadow {
+  box-shadow: 0 10px 30px rgba(198, 93, 62, 0.05);
+}
+
+/* ---------- Scrollbar ---------- */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ---------- Selection ---------- */
+::selection {
+  background-color: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+/* ---------- Tactile Textures ---------- */
+.tactile-input {
+  background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.05"/%3E%3C/svg%3E');
+}
+
+.tactile-input-login {
+  background-image: radial-gradient(rgba(138, 114, 107, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(138, 114, 107, 0.05) 1px, transparent 1px);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 12px 24px;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  background-color: var(--surface-tint);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 12px 24px;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--on-surface);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 12px 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--outline);
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-outline:hover {
+  background-color: var(--surface-container-high);
+  border-color: var(--tertiary-fixed-dim);
+}
+
+/* ---------- Form Inputs ---------- */
+.input-field {
+  width: 100%;
+  background-color: var(--surface-container-lowest);
+  border: 1px solid rgba(221, 192, 185, 0.5);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--on-surface);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field:focus {
+  border-color: var(--tertiary);
+  box-shadow: 0 0 0 1px var(--tertiary);
+}
+
+.input-field::placeholder {
+  color: rgba(86, 66, 61, 0.4);
+}
+
+.input-label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--on-surface-variant);
+  margin-bottom: 8px;
+}
+
+/* ---------- Status Badges ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-pending {
+  background-color: var(--surface-container-high);
+  color: var(--on-surface);
+  border: 1px dashed rgba(221, 192, 185, 0.5);
+}
+
+.badge-confirmed {
+  background-color: rgba(140, 113, 47, 0.15);
+  color: var(--tertiary-container);
+  border: 1px dashed rgba(140, 113, 47, 0.3);
+}
+
+.badge-packed {
+  background-color: rgba(140, 113, 47, 0.2);
+  color: var(--tertiary-container);
+  border: 1px dashed rgba(140, 113, 47, 0.3);
+}
+
+.badge-delivered {
+  background-color: rgba(156, 62, 34, 0.1);
+  color: var(--primary);
+  border: 1px solid rgba(156, 62, 34, 0.2);
+}
+
+.badge-cancelled {
+  background-color: var(--error-container);
+  color: var(--on-error-container);
+  border: 1px solid rgba(186, 26, 26, 0.2);
+}
+
+.badge-paid {
+  background-color: rgba(140, 113, 47, 0.15);
+  color: var(--tertiary);
+  border: 1px solid rgba(140, 113, 47, 0.3);
+}
+
+.badge-unpaid {
+  background-color: rgba(186, 26, 26, 0.08);
+  color: var(--error);
+  border: 1px dashed rgba(186, 26, 26, 0.3);
+}
+
+/* ---------- Card ---------- */
+.card {
+  background-color: var(--surface-container-lowest);
+  border: 1px solid rgba(221, 192, 185, 0.3);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.card:hover {
+  border-color: rgba(228, 194, 120, 0.5);
+}
+
+/* ---------- Layout Helpers ---------- */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page-padding {
+  padding-left: var(--margin-mobile);
+  padding-right: var(--margin-mobile);
+}
+
+@media (min-width: 768px) {
+  .page-padding {
+    padding-left: var(--margin-desktop);
+    padding-right: var(--margin-desktop);
+  }
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}

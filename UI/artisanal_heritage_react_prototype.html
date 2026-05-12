@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisanal Heritage - React Prototype</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#9c3e22",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#bc5637",
+                        "on-primary-container": "#fffbff",
+                        "secondary": "#984543",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#fe9693",
+                        "on-secondary-container": "#782c2c",
+                        "tertiary": "#725818",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#8c712f",
+                        "on-tertiary-container": "#fffbff",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "background": "#fff8f6",
+                        "on-background": "#231916",
+                        "surface": "#fff8f6",
+                        "on-surface": "#231916",
+                        "surface-variant": "#f2ded9",
+                        "on-surface-variant": "#56423d",
+                        "outline": "#8a726b",
+                        "outline-variant": "#ddc0b9",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#fff1ed",
+                        "surface-container": "#feeae5",
+                        "surface-container-high": "#f8e4df",
+                        "surface-container-highest": "#f2ded9",
+                        "surface-dim": "#e9d6d1",
+                        "surface-bright": "#fff8f6",
+                        "surface-tint": "#9f4024"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "stack-lg": "48px",
+                        "stack-md": "24px",
+                        "stack-sm": "12px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["EB Garamond"],
+                        "display-lg-mobile": ["EB Garamond"],
+                        "headline-lg": ["EB Garamond"],
+                        "headline-md": ["EB Garamond"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- React & React Router -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        body { min-height: 100vh; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Shared Components ---
+
+        const TopAppBar = ({ title = "[Your Brand]", hideNav = false, showBack = false }) => {
+            const navigate = useNavigate();
+            return (
+                <header className="bg-surface dark:bg-on-surface docked full-width top-0 border-b border-outline-variant/20 flat no shadows flex justify-between items-center px-margin-mobile md:px-margin-desktop w-full py-stack-sm sticky z-50">
+                    {showBack ? (
+                        <button onClick={() => navigate(-1)} aria-label="Back" className="text-primary dark:text-primary-fixed-dim hover:text-secondary transition-colors opacity-80 p-2">
+                            <span className="material-symbols-outlined" style={{fontSize: '24px'}}>arrow_back</span>
+                        </button>
+                    ) : (
+                        <button aria-label="Menu" className="text-primary dark:text-primary-fixed-dim hover:text-secondary transition-colors opacity-80 md:hidden p-2">
+                            <span className="material-symbols-outlined" style={{fontSize: '24px'}}>menu</span>
+                        </button>
+                    )}
+                    
+                    {!hideNav && !showBack && (
+                        <div className="hidden md:flex items-center gap-6">
+                            <nav className="flex gap-8">
+                                <Link to="/" className="text-on-surface-variant font-label-md text-label-md hover:text-secondary transition-colors opacity-80 transition-opacity">Home</Link>
+                                <Link to="/build" className="text-on-surface-variant font-label-md text-label-md hover:text-secondary transition-colors">Build</Link>
+                                <Link to="/tracking" className="text-on-surface-variant font-label-md text-label-md hover:text-secondary transition-colors">Orders</Link>
+                            </nav>
+                        </div>
+                    )}
+
+                    <Link to="/" className={`font-headline-lg text-headline-lg text-primary dark:text-primary-fixed-dim italic tracking-tight text-center ${(!hideNav && !showBack) ? 'flex-1 md:flex-none' : 'flex-1'} cursor-pointer`}>
+                        {title}
+                    </Link>
+
+                    {!hideNav && (
+                        <div className="flex items-center gap-6">
+                            <div className="hidden md:block">
+                                <Link to="/" className="text-on-surface-variant font-label-md text-label-md hover:text-secondary transition-colors">Account</Link>
+                            </div>
+                            <button aria-label="Shopping Bag" className="text-primary dark:text-primary-fixed-dim hover:text-secondary transition-colors opacity-80 p-2 relative">
+                                <span className="material-symbols-outlined" style={{fontSize: '24px'}}>shopping_bag</span>
+                                <span className="absolute top-1 right-1 bg-primary text-on-primary text-[10px] w-4 h-4 rounded-full flex items-center justify-center">3</span>
+                            </button>
+                        </div>
+                    )}
+                </header>
+            );
+        };
+
+        const BottomNavBar = () => {
+            const location = useLocation();
+            const getActiveClasses = (paths) => paths.includes(location.pathname) ? "bg-secondary-container/30 text-primary scale-95 font-bold" : "text-on-surface-variant hover:bg-surface-container-high";
+            const getIconFilled = (paths) => paths.includes(location.pathname) ? "1" : "0";
+
+            return (
+                <nav className="md:hidden bg-surface dark:bg-inverse-surface docked full-width bottom-0 rounded-t-xl border-t border-outline-variant/30 shadow-[0_-4px_12px_rgba(156,62,34,0.05)] shadow-sm fixed left-0 w-full z-50 flex justify-around items-center px-2 py-3 backdrop-blur-md">
+                    <Link to="/" className={`flex flex-col items-center justify-center px-4 py-1 transition-all rounded-lg ${getActiveClasses(['/'])}`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: `'FILL' ${getIconFilled(['/'])}`}}>home</span>
+                        <span className="font-label-md text-[10px] mt-1 leading-tight">Home</span>
+                    </Link>
+                    <Link to="/build" className={`flex flex-col items-center justify-center px-4 py-1 transition-all rounded-lg ${getActiveClasses(['/build'])}`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: `'FILL' ${getIconFilled(['/build'])}`}}>card_giftcard</span>
+                        <span className="font-label-md text-[10px] mt-1 leading-tight">Build</span>
+                    </Link>
+                    <Link to="/tracking" className={`flex flex-col items-center justify-center px-4 py-1 transition-all rounded-lg ${getActiveClasses(['/tracking', '/confirmation'])}`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: `'FILL' ${getIconFilled(['/tracking', '/confirmation'])}`}}>package_2</span>
+                        <span className="font-label-md text-[10px] mt-1 leading-tight">Orders</span>
+                    </Link>
+                    <Link to="/" className={`flex flex-col items-center justify-center px-4 py-1 transition-all rounded-lg ${getActiveClasses(['/account'])}`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: `'FILL' ${getIconFilled(['/account'])}`}}>person</span>
+                        <span className="font-label-md text-[10px] mt-1 leading-tight">Account</span>
+                    </Link>
+                </nav>
+            );
+        };
+
+        const Footer = () => (
+            <footer className="bg-surface-container-lowest dark:bg-on-surface full-width relative border-t border-outline-variant/50 flat no shadows w-full px-margin-mobile py-stack-lg flex flex-col items-center gap-stack-md text-center mt-auto pb-[100px] md:pb-stack-lg">
+                <div className="font-headline-md text-headline-md text-primary dark:text-primary-fixed italic tracking-tight">
+                    [Your Brand]
+                </div>
+                <div className="flex flex-wrap justify-center gap-stack-md">
+                    <a className="text-on-surface-variant font-label-md text-label-md hover:text-tertiary transition-colors duration-300 focus:ring-1 focus:ring-tertiary outline-none rounded px-1" href="#">Sourcing</a>
+                    <a className="text-on-surface-variant font-label-md text-label-md hover:text-tertiary transition-colors duration-300 focus:ring-1 focus:ring-tertiary outline-none rounded px-1" href="#">Sustainability</a>
+                    <a className="text-on-surface-variant font-label-md text-label-md hover:text-tertiary transition-colors duration-300 focus:ring-1 focus:ring-tertiary outline-none rounded px-1" href="#">Artisan Stories</a>
+                    <a className="text-on-surface-variant font-label-md text-label-md hover:text-tertiary transition-colors duration-300 focus:ring-1 focus:ring-tertiary outline-none rounded px-1" href="#">Contact</a>
+                </div>
+                <div className="font-body-md text-body-md text-secondary dark:text-secondary-fixed mt-stack-sm opacity-70">
+                    © 2024 [Your Brand]. Handcrafted with love in India.
+                </div>
+            </footer>
+        );
+
+        // --- Screens ---
+
+        const LandingPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="flex flex-col min-h-screen">
+                    <TopAppBar />
+                    <main className="flex-grow">
+                        <section className="relative w-full h-[618px] md:h-[707px] flex flex-col justify-end pb-stack-lg px-margin-mobile md:px-margin-desktop overflow-hidden">
+                            <div className="absolute inset-0 -z-10">
+                                <img alt="Hero Image" className="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSmqDIcBPj0esdTUD_aFAIZidGfKP0ghJ1f6aThZthzC3ip5RI1cnipV93IrBmTapSxZ-i5zzhMup5IkoyHmPbjIH08PvPMmI_UgvN_S6tWYR2_eZU3e1GAfYjYAWBDJhgM0MRcChQh70GcdHRriybyxrUfPPLqdsqIbE1ccP6U4atWrEwu5bW6jCbJtbFPOLOC9HeKekd-BwKc_2PCTxqpLGdyk8k8o3uUziTruELx411_vQy6OEmosQWCxpzPI7z9D-5xOojDjgG" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-inverse-surface/40 to-transparent"></div>
+                            </div>
+                            <div className="max-w-2xl relative z-10 text-on-primary">
+                                <h1 className="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg mb-stack-sm drop-shadow-md">
+                                    Handcrafted gifts for life's biggest moments.
+                                </h1>
+                                <p className="font-body-lg text-body-lg mb-stack-md text-surface-container-high opacity-90">
+                                    Curated hampers for pre-wedding, house-warming, and festivals.
+                                </p>
+                                <button onClick={() => navigate('/build')} className="bg-primary text-on-primary font-label-md text-label-md px-8 py-4 rounded-full shadow-[0_4px_24px_rgba(156,62,34,0.3)] hover:bg-surface-tint transition-all active:scale-95">
+                                    Build your hamper
+                                </button>
+                            </div>
+                        </section>
+                    </main>
+                    <Footer />
+                    <BottomNavBar />
+                </div>
+            );
+        };
+
+        const BuildPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="flex flex-col min-h-screen pb-24 md:pb-0">
+                    <TopAppBar />
+                    <main className="flex-grow flex flex-col w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg gap-stack-lg relative">
+                        <section className="text-center w-full max-w-md mx-auto">
+                            <p className="font-label-md text-label-md text-primary tracking-widest uppercase mb-unit">Step 1 of 3</p>
+                            <h1 className="font-headline-lg text-headline-lg text-on-surface mb-stack-md">Pick your items</h1>
+                            <div className="flex items-center justify-center gap-unit">
+                                <div className="w-12 h-1 bg-primary rounded-full"></div>
+                                <div className="w-12 h-1 bg-surface-variant rounded-full"></div>
+                                <div className="w-12 h-1 bg-surface-variant rounded-full"></div>
+                            </div>
+                        </section>
+                        <div className="flex flex-col md:flex-row gap-gutter relative">
+                            <section className="flex-grow">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+                                    <article className="bg-surface-container-lowest border border-surface-variant rounded-xl overflow-hidden shadow-[0_8px_24px_rgba(198,93,62,0.03)] flex flex-col">
+                                        <div className="aspect-square bg-surface-variant relative overflow-hidden">
+                                            <img alt="Product" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYtCb6FPWaTMHXuDFLKyB7PgVRDVbBivy80pzkAq727Z66ZFQJEhGWEJaNIqbi36pd2fBd37M-_-Ssmw-sSxzN-dScOAmGRWcKgz6Bttj5WB1ZMe5SmQXx8Pov62djAiD29NrgoFuTWlLtZ41LeLIGHeO8KJR_A7EKC5zft6Wq3IyTeKMoH2SxrW3Vd5iVvcTDZN4BO8ZMmCy-xPXVt36cbqidmmCzUDNVOD0onYgzZ9UGOyURU7-r13nCvvYxSD-5KLHwUPK7HaZ8"/>
+                                        </div>
+                                        <div className="p-4 flex flex-col flex-grow">
+                                            <h3 className="font-headline-md text-headline-md text-on-surface mb-1">Earthen Kulhad Set</h3>
+                                            <p className="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-4 flex-grow">Set of 4 traditional clay tea cups.</p>
+                                            <div className="flex items-center justify-between mt-auto">
+                                                <span className="font-label-md text-label-md text-primary">₹350</span>
+                                                <button onClick={() => navigate('/checkout')} className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md">Add</button>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+                    <div className="fixed bottom-0 left-0 w-full z-40 bg-surface/95 backdrop-blur-md border-t border-outline-variant/30 shadow-[0_-8px_24px_rgba(156,62,34,0.08)] hidden md:block">
+                        <div className="max-w-container-max mx-auto px-margin-desktop py-4 flex items-center justify-between">
+                            <div className="flex items-center gap-stack-md">
+                                <div className="bg-surface-container-high p-3 rounded-lg text-primary">
+                                    <span className="material-symbols-outlined">package_2</span>
+                                </div>
+                                <div>
+                                    <p className="font-label-md text-label-md text-on-surface-variant">Current Hamper</p>
+                                    <p className="font-headline-md text-headline-md text-on-surface">3 items <span className="text-outline mx-1">·</span> ₹1,050</p>
+                                </div>
+                            </div>
+                            <button onClick={() => navigate('/checkout')} className="bg-secondary text-on-secondary px-8 py-3 rounded-lg font-label-md text-label-md">View hamper</button>
+                        </div>
+                    </div>
+                    <BottomNavBar />
+                </div>
+            );
+        };
+
+        const CheckoutPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="flex flex-col min-h-screen">
+                    <TopAppBar hideNav={true} showBack={true} />
+                    <main className="flex-grow w-full max-w-2xl mx-auto px-margin-mobile py-stack-lg">
+                        <div className="mb-stack-lg text-center">
+                            <h1 className="font-display-lg-mobile text-display-lg-mobile text-primary mb-stack-sm">Almost there.</h1>
+                            <p className="font-body-md text-body-md text-on-surface-variant">Complete your order details below.</p>
+                        </div>
+                        <form className="space-y-stack-md relative" onSubmit={(e) => { e.preventDefault(); navigate('/confirmation'); }}>
+                            <div className="flex flex-col gap-unit">
+                                <label className="font-label-md text-label-md text-on-surface">Full name</label>
+                                <input required className="w-full bg-surface-container-lowest border border-outline-variant rounded p-stack-sm font-body-md text-body-md" type="text" defaultValue="Eleanor Vance"/>
+                            </div>
+                            <button type="submit" className="w-full bg-primary text-on-primary font-label-md text-label-md py-stack-sm px-stack-md rounded mt-8">Pay now</button>
+                        </form>
+                    </main>
+                </div>
+            );
+        };
+
+        const ConfirmationPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="flex flex-col min-h-screen">
+                    <TopAppBar />
+                    <main className="flex-grow w-full max-w-[480px] mx-auto px-margin-mobile py-stack-lg flex flex-col gap-stack-lg">
+                        <section className="flex flex-col items-center text-center pt-stack-md">
+                            <div className="mb-stack-sm text-tertiary-fixed-dim">
+                                <span className="material-symbols-outlined text-[64px]" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
+                            </div>
+                            <h1 className="font-display-lg-mobile text-display-lg-mobile text-primary mb-unit">Order confirmed!</h1>
+                            <p className="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">Order # ORD-2026-0001</p>
+                        </section>
+                        <section className="flex flex-col gap-stack-sm mt-auto pb-stack-lg">
+                            <button onClick={() => navigate('/tracking')} className="w-full bg-primary text-on-primary font-label-md text-label-md py-4 rounded-lg">Track your order</button>
+                        </section>
+                    </main>
+                    <BottomNavBar />
+                </div>
+            );
+        };
+
+        const TrackingPage = () => {
+            return (
+                <div className="flex flex-col min-h-screen bg-background">
+                    <TopAppBar showBack={true} />
+                    <main className="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-stack-lg pb-24 md:pb-stack-lg">
+                        <section className="text-center md:text-left flex flex-col gap-stack-sm">
+                            <h1 className="font-display-lg-mobile md:font-display-lg text-on-surface">Your hamper's journey.</h1>
+                            <p className="font-body-md text-body-md text-on-surface-variant">Order #ORD-2026-0001 placed on October 24, 2026</p>
+                        </section>
+                        <section className="bg-surface-container-lowest rounded-xl p-stack-md md:p-margin-desktop border border-outline-variant/30 shadow-[0_8px_32px_rgba(156,62,34,0.03)] relative overflow-hidden">
+                            <div className="flex flex-col md:flex-row items-center justify-between relative z-10 w-full">
+                                <div className="flex flex-col items-center gap-unit w-full md:w-1/4 relative mb-stack-md md:mb-0">
+                                    <div className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-[0_4px_12px_rgba(156,62,34,0.2)] z-10">
+                                        <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>pending_actions</span>
+                                    </div>
+                                    <span className="font-label-md text-label-md text-primary mt-unit">Pending</span>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                    <Footer />
+                    <BottomNavBar />
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <Routes>
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/build" element={<BuildPage />} />
+                        <Route path="/checkout" element={<CheckoutPage />} />
+                        <Route path="/confirmation" element={<ConfirmationPage />} />
+                        <Route path="/tracking" element={<TrackingPage />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

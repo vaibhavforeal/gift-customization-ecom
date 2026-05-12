@@ -1,0 +1,125 @@
+// Prisma schema for the gifting backend.
+// Run `npm run prisma:migrate -- --name init` to create tables.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----- Enums -----
+
+enum Category {
+  TERRACOTTA
+  SWEET
+  DRYFRUIT
+  OTHER
+}
+
+enum OrderStatus {
+  PENDING       // Customer submitted, not yet confirmed
+  CONFIRMED     // Confirmed by admin, ready to pack
+  PACKED        // Packed, ready for handover/delivery
+  DELIVERED     // Delivered to customer
+  CANCELLED     // Cancelled
+}
+
+enum PaymentStatus {
+  UNPAID        // No payment received
+  PAID          // Razorpay verified or manually marked paid
+  REFUNDED      // Refunded (rare, manual)
+}
+
+// ----- Core models -----
+
+// A single sellable item that can go inside a hamper.
+// e.g. "Terracotta Diya Set", "Kaju Katli 250g", "Almonds 100g".
+model Product {
+  id           String        @id @default(cuid())
+  name         String
+  description  String?
+  category     Category
+  imageUrl     String        // Full URL or path under /uploads
+  isActive     Boolean       @default(true)
+  // Quantity-based pricing tiers. At least one tier expected.
+  pricingTiers PricingTier[]
+  orderItems   OrderItem[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([category, isActive])
+}
+
+// Quantity-based pricing for a product.
+// e.g. 1-4 = ₹150 each, 5-9 = ₹130 each, 10+ = ₹110 each.
+// maxQty = null means "no upper bound" (use for the last tier).
+model PricingTier {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  minQty    Int
+  maxQty    Int?    // null = no upper bound
+  unitPrice Decimal @db.Decimal(10, 2)
+
+  @@index([productId])
+}
+
+// A customer's order. Customer details are stored inline (no separate Customer
+// table) to keep the model simple - dedupe by phone later if needed.
+model Order {
+  id                String        @id @default(cuid())
+  orderNumber       String        @unique  // human-readable, e.g. ORD-2026-0001
+
+  // Customer details (collected at order submission)
+  customerName      String
+  customerPhone     String
+  customerEmail     String?
+  shippingAddress   String        // free-text for now; structure later if needed
+  occasion          String?       // e.g. "pre-wedding", "house-warming"
+  notes             String?
+
+  items             OrderItem[]
+  subtotal          Decimal       @db.Decimal(10, 2)
+
+  status            OrderStatus   @default(PENDING)
+  paymentStatus     PaymentStatus @default(UNPAID)
+
+  // Razorpay references (populated only if customer chooses to pay online)
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([customerPhone])
+  @@index([createdAt])
+}
+
+// Line item in an order. We snapshot the unit price at order time so
+// changing product pricing later does not retroactively change old orders.
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)  // snapshot
+  subtotal  Decimal @db.Decimal(10, 2)  // quantity * unitPrice, denormalised
+
+  @@index([orderId])
+}
+
+// Admin users for the dashboard. Create via `npm run create:admin`.
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+}

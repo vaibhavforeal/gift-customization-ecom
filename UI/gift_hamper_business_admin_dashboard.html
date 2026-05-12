@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Gift Hamper Business - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"/>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#8c712f",
+                        "on-secondary-container": "#782c2c",
+                        "background": "#fff8f6",
+                        "secondary-fixed": "#ffdad8",
+                        "inverse-surface": "#392e2b",
+                        "on-primary-fixed": "#3b0900",
+                        "surface-tint": "#9f4024",
+                        "on-secondary-fixed": "#3f0207",
+                        "on-primary-fixed-variant": "#802a0f",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#7a2e2e",
+                        "secondary": "#984543",
+                        "primary-fixed": "#ffdbd1",
+                        "inverse-primary": "#ffb5a0",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#ffb5a0",
+                        "tertiary-fixed-dim": "#e4c278",
+                        "outline": "#8a726b",
+                        "surface-dim": "#e9d6d1",
+                        "primary": "#9c3e22",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "tertiary": "#725818",
+                        "on-tertiary-fixed": "#251a00",
+                        "on-error": "#ffffff",
+                        "on-surface": "#231916",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#f2ded9",
+                        "on-background": "#231916",
+                        "on-tertiary-container": "#fffbff",
+                        "surface-container-high": "#f8e4df",
+                        "on-surface-variant": "#56423d",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#bc5637",
+                        "surface-container": "#feeae5",
+                        "secondary-fixed-dim": "#ffb3b0",
+                        "surface-variant": "#f2ded9",
+                        "inverse-on-surface": "#ffede8",
+                        "on-primary-container": "#fffbff",
+                        "secondary-container": "#fe9693",
+                        "surface-container-low": "#fff1ed",
+                        "surface": "#fff8f6",
+                        "outline-variant": "#ddc0b9",
+                        "surface-bright": "#fff8f6",
+                        "tertiary-fixed": "#ffdf9b",
+                        "on-tertiary-fixed-variant": "#5a4302"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "stack-md": "24px",
+                        "unit": "4px",
+                        "margin-mobile": "20px",
+                        "stack-lg": "48px",
+                        "container-max": "1280px",
+                        "stack-sm": "12px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["EB Garamond"],
+                        "display-lg": ["EB Garamond"],
+                        "display-lg-mobile": ["EB Garamond"],
+                        "caption": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["EB Garamond"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .tactile-shadow { box-shadow: 0 10px 30px rgba(198, 93, 62, 0.05); }
+        .linen-texture { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E'); }
+        .tactile-divider { position: relative; text-align: center; }
+        .tactile-divider::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; border-top: 1px solid theme('colors.outline-variant'); opacity: 0.5; z-index: 1; }
+        .tactile-divider-icon { position: relative; z-index: 2; background-color: theme('colors.surface-container-lowest'); padding: 0 8px; color: theme('colors.tertiary-fixed-dim'); font-size: 12px; }
+        .ambient-shadow { box-shadow: 0 8px 32px rgba(156, 62, 34, 0.04), 0 2px 8px rgba(156, 62, 34, 0.02); }
+        .tactile-input { background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.05"/%3E%3C/svg%3E'); }
+        .texture-overlay { background-image: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239c3e22" fill-opacity="0.03" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E'); }
+        .motif-divider { position: relative; text-align: center; }
+        .motif-divider::before, .motif-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background-color: theme('colors.outline-variant'); }
+        .motif-divider::before { left: 0; }
+        .motif-divider::after { right: 0; }
+        .motif-divider .motif-center { display: inline-block; width: 8px; height: 8px; transform: rotate(45deg); background-color: theme('colors.tertiary-fixed-dim'); border: 1px solid theme('colors.tertiary-container'); }
+        .shadow-ambient { box-shadow: 0 12px 24px -4px rgba(198, 93, 62, 0.04), 0 4px 8px -2px rgba(198, 93, 62, 0.02); }
+        .shadow-ambient-sm { box-shadow: 0 4px 12px -2px rgba(198, 93, 62, 0.03); }
+        .tactile-input-login { background-image: radial-gradient(rgba(138, 114, 107, 0.05) 1px, transparent 1px), radial-gradient(rgba(138, 114, 107, 0.05) 1px, transparent 1px); background-size: 4px 4px; background-position: 0 0, 2px 2px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex antialiased">
+    <div id="root" class="w-full h-full flex"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        function App() {
+            return (
+                <MemoryRouter initialEntries={['/login']}>
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/" element={<Layout><Dashboard /></Layout>} />
+                        <Route path="/products" element={<Layout><Products /></Layout>} />
+                        <Route path="/products/edit" element={<Layout><EditProduct /></Layout>} />
+                        <Route path="/orders" element={<Layout><Orders /></Layout>} />
+                        <Route path="/orders/detail" element={<Layout><OrderDetail /></Layout>} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        }
+
+        // Shared Layout with Sidebar
+        function Layout({ children }) {
+            const location = useLocation();
+            
+            const isActive = (path) => {
+                if (path === '/' && location.pathname === '/') return true;
+                if (path !== '/' && location.pathname.startsWith(path)) return true;
+                return false;
+            };
+
+            return (
+                <div class="flex w-full h-screen overflow-hidden">
+                    {/* Sidebar */}
+                    <aside class="w-64 bg-surface-container-lowest border-r border-outline-variant/30 flex flex-col justify-between hidden md:flex h-screen sticky top-0 z-20">
+                        <div>
+                            <div class="px-gutter py-stack-md border-b border-outline-variant/20 mb-stack-sm flex items-center justify-center">
+                                <span class="font-headline-md text-headline-md text-primary italic tracking-tight">Kasturi</span>
+                            </div>
+                            <nav class="px-stack-sm space-y-unit">
+                                <Link to="/" class={`flex items-center gap-stack-sm px-4 py-3 rounded-lg font-label-md text-label-md transition-all border border-transparent ${isActive('/') ? 'bg-secondary-container/20 text-primary' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-secondary'}`}>
+                                    <span class={`material-symbols-outlined ${isActive('/') ? 'fill' : ''}`}>dashboard</span>
+                                    Dashboard
+                                </Link>
+                                <Link to="/orders" class={`flex items-center gap-stack-sm px-4 py-3 rounded-lg font-label-md text-label-md transition-all border border-transparent ${isActive('/orders') ? 'bg-secondary-container/20 text-primary' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-secondary'}`}>
+                                    <span class={`material-symbols-outlined ${isActive('/orders') ? 'fill' : ''}`}>receipt_long</span>
+                                    Orders
+                                </Link>
+                                <Link to="/products" class={`flex items-center gap-stack-sm px-4 py-3 rounded-lg font-label-md text-label-md transition-all border border-transparent ${isActive('/products') ? 'bg-secondary-container/20 text-primary' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-secondary'}`}>
+                                    <span class={`material-symbols-outlined ${isActive('/products') ? 'fill' : ''}`}>card_giftcard</span>
+                                    Products
+                                </Link>
+                                <a href="#" class="flex items-center gap-stack-sm px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-secondary transition-all">
+                                    <span class="material-symbols-outlined">settings</span>
+                                    Settings
+                                </a>
+                            </nav>
+                        </div>
+                        <div class="p-gutter border-t border-outline-variant/20">
+                            <Link to="/login" class="flex items-center gap-stack-sm text-on-surface-variant hover:text-primary transition-all font-label-md text-label-md">
+                                <span class="material-symbols-outlined">logout</span>
+                                Sign Out
+                            </Link>
+                        </div>
+                    </aside>
+
+                    {/* Main Content */}
+                    <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-background">
+                        {/* Mobile Header */}
+                        <div class="md:hidden flex justify-between items-center px-margin-mobile w-full py-stack-sm bg-surface fixed top-0 left-0 right-0 z-30 border-b border-outline-variant/20">
+                            <button class="text-primary p-2 -ml-2">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
+                            <span class="font-headline-lg text-headline-lg text-primary italic tracking-tight">Kasturi</span>
+                            <button class="text-primary p-2 -mr-2">
+                                <span class="material-symbols-outlined">shopping_bag</span>
+                            </button>
+                        </div>
+
+                        {/* Page Content */}
+                        <div class="flex-1 overflow-auto pt-16 md:pt-0">
+                            {children}
+                        </div>
+
+                        {/* Mobile Bottom Nav */}
+                        <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 bg-surface/90 backdrop-blur-md border-t border-outline-variant/30 shadow-[0_-4px_12px_rgba(156,62,34,0.05)] rounded-t-xl">
+                            <Link to="/" class={`flex flex-col items-center justify-center px-4 py-1 rounded-lg ${isActive('/') ? 'bg-secondary-container/30 text-primary scale-95' : 'text-on-surface-variant hover:bg-surface-container-high'}`}>
+                                <span class="material-symbols-outlined">home</span>
+                                <span class="font-label-md text-label-md mt-1 text-[10px]">Home</span>
+                            </Link>
+                            <Link to="/products" class={`flex flex-col items-center justify-center px-4 py-1 rounded-lg ${isActive('/products') ? 'bg-secondary-container/30 text-primary scale-95' : 'text-on-surface-variant hover:bg-surface-container-high'}`}>
+                                <span class="material-symbols-outlined">card_giftcard</span>
+                                <span class="font-label-md text-label-md mt-1 text-[10px]">Products</span>
+                            </Link>
+                            <Link to="/orders" class={`flex flex-col items-center justify-center px-4 py-1 rounded-lg ${isActive('/orders') ? 'bg-secondary-container/30 text-primary scale-95' : 'text-on-surface-variant hover:bg-surface-container-high'}`}>
+                                <span class="material-symbols-outlined">package_2</span>
+                                <span class="font-label-md text-label-md mt-1 text-[10px]">Orders</span>
+                            </Link>
+                            <Link to="#" class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high">
+                                <span class="material-symbols-outlined">person</span>
+                                <span class="font-label-md text-label-md mt-1 text-[10px]">Account</span>
+                            </Link>
+                        </nav>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- Screens ---
+
+        function Login() {
+            const navigate = useNavigate();
+            const handleLogin = (e) => {
+                e.preventDefault();
+                navigate('/');
+            };
+
+            return (
+                <main class="w-full h-full flex items-center justify-center">
+                    <div class="w-full max-w-md">
+                        <div class="bg-surface-container-lowest rounded-lg border border-outline-variant/30 shadow-[0_12px_40px_rgba(156,62,34,0.06)] relative overflow-hidden px-margin-mobile py-stack-lg md:px-stack-lg flex flex-col items-center">
+                            <div class="absolute top-0 left-0 w-full flex justify-center items-center pt-stack-sm opacity-60">
+                                <div class="h-[1px] bg-tertiary/40 w-16"></div>
+                                <svg class="mx-2 text-tertiary" fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1"></path>
+                                    <circle cx="12" cy="12" fill="currentColor" fillOpacity="0.5" r="2"></circle>
+                                </svg>
+                                <div class="h-[1px] bg-tertiary/40 w-16"></div>
+                            </div>
+                            <h1 class="font-headline-lg text-headline-lg text-primary italic tracking-tight mt-stack-sm mb-stack-lg text-center">Kasturi</h1>
+                            <form onSubmit={handleLogin} class="w-full flex flex-col gap-stack-md">
+                                <div class="flex flex-col gap-unit">
+                                    <label class="font-label-md text-label-md text-on-surface-variant" htmlFor="email">Email</label>
+                                    <input class="tactile-input-login bg-surface-container-low border border-outline-variant/50 rounded-md px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-tertiary focus:border-tertiary transition-colors w-full placeholder:text-on-surface-variant/40" id="email" name="email" placeholder="admin@kasturi.com" required type="email" defaultValue="admin@kasturi.com" />
+                                </div>
+                                <div class="flex flex-col gap-unit">
+                                    <label class="font-label-md text-label-md text-on-surface-variant" htmlFor="password">Password</label>
+                                    <div class="relative w-full">
+                                        <input class="tactile-input-login bg-surface-container-low border border-outline-variant/50 rounded-md px-4 py-3 pr-12 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-tertiary focus:border-tertiary transition-colors w-full placeholder:text-on-surface-variant/40" id="password" name="password" placeholder="••••••••" required type="password" defaultValue="password" />
+                                        <button aria-label="Toggle password visibility" class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/60 hover:text-primary transition-colors focus:outline-none" type="button">
+                                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button class="mt-stack-sm w-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-4 px-6 rounded-md transition-colors duration-300 flex items-center justify-center shadow-sm" type="submit">
+                                    Sign in
+                                </button>
+                            </form>
+                            <p class="font-caption text-caption text-on-surface-variant/70 mt-stack-md text-center">Admin access only.</p>
+                        </div>
+                    </div>
+                </main>
+            );
+        }
+
+        function Dashboard() {
+            return (
+                <div class="flex flex-col h-full">
+                    <header class="bg-surface-container-lowest border-b border-outline-variant/20 h-20 flex items-center justify-between px-margin-desktop sticky top-0 z-10 hidden md:flex">
+                        <h1 class="font-headline-lg text-headline-lg text-on-surface">Dashboard</h1>
+                        <div class="flex items-center gap-stack-md">
+                            <span class="font-body-md text-body-md text-on-surface-variant hidden lg:block">October 24, 2024</span>
+                            <button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary border border-outline-variant/50 hover:bg-surface-container-high transition-colors focus:ring-2 focus:ring-primary/20 outline-none">
+                                <span class="material-symbols-outlined">person</span>
+                            </button>
+                        </div>
+                    </header>
+                    <div class="flex-1 overflow-auto p-margin-mobile md:p-margin-desktop space-y-stack-lg max-w-container-max mx-auto w-full pb-24 md:pb-8">
+                        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                            <div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-ambient-sm border border-outline-variant/30 flex flex-col justify-between h-32 hover:border-tertiary-fixed-dim/50 transition-colors">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-label-md text-label-md text-on-surface-variant">Orders Today</h3>
+                                    <span class="material-symbols-outlined text-secondary text-opacity-70">shopping_bag</span>
+                                </div>
+                                <p class="font-display-lg text-display-lg text-on-surface">5</p>
+                            </div>
+                            <div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-ambient-sm border border-outline-variant/30 flex flex-col justify-between h-32 hover:border-tertiary-fixed-dim/50 transition-colors">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-label-md text-label-md text-on-surface-variant">Orders This Week</h3>
+                                    <span class="material-symbols-outlined text-secondary text-opacity-70">calendar_month</span>
+                                </div>
+                                <p class="font-display-lg text-display-lg text-on-surface">32</p>
+                            </div>
+                            <div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-ambient-sm border border-outline-variant/30 flex flex-col justify-between h-32 hover:border-tertiary-fixed-dim/50 transition-colors bg-surface-container/30">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-label-md text-label-md text-on-surface-variant">Pending Orders</h3>
+                                    <span class="material-symbols-outlined text-primary text-opacity-70">pending_actions</span>
+                                </div>
+                                <p class="font-display-lg text-display-lg text-primary">8</p>
+                            </div>
+                            <div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-ambient-sm border border-error-container flex flex-col justify-between h-32 hover:border-error/30 transition-colors bg-error-container/10">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-label-md text-label-md text-error">Unpaid Orders</h3>
+                                    <span class="material-symbols-outlined text-error text-opacity-70">payments</span>
+                                </div>
+                                <p class="font-display-lg text-display-lg text-error">12</p>
+                            </div>
+                        </section>
+                        
+                        <section class="bg-surface-container-lowest rounded-xl shadow-ambient border border-outline-variant/30 overflow-hidden mt-8">
+                            <div class="p-stack-md border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-lowest">
+                                <h2 class="font-headline-md text-headline-md text-on-surface">Recent Orders</h2>
+                                <Link to="/orders" class="font-label-md text-label-md text-secondary hover:text-primary transition-colors underline underline-offset-4 decoration-secondary/30 hover:decoration-primary">View all</Link>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-surface-container/30 border-b border-outline-variant/40">
+                                            <th class="py-3 px-stack-md font-label-md text-label-md text-on-surface-variant font-semibold">Order ID</th>
+                                            <th class="py-3 px-stack-md font-label-md text-label-md text-on-surface-variant font-semibold">Customer</th>
+                                            <th class="py-3 px-stack-md font-label-md text-label-md text-on-surface-variant font-semibold">Date</th>
+                                            <th class="py-3 px-stack-md font-label-md text-label-md text-on-surface-variant font-semibold">Amount</th>
+                                            <th class="py-3 px-stack-md font-label-md text-label-md text-on-surface-variant font-semibold">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="font-body-md text-body-md text-on-surface">
+                                        <tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors group cursor-pointer" onClick={() => window.location.href='#/orders/detail'}>
+                                            <td class="py-4 px-stack-md font-medium text-primary">#ORD-4092</td>
+                                            <td class="py-4 px-stack-md">Anya Sharma</td>
+                                            <td class="py-4 px-stack-md text-on-surface-variant">Oct 24, 2024</td>
+                                            <td class="py-4 px-stack-md">₹4,200</td>
+                                            <td class="py-4 px-stack-md"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-container-high text-on-surface border border-outline-variant/50 border-dashed">Pending</span></td>
+                                        </tr>
+                                         <tr class="border-b border-outline-variant/20 hover:bg-surface-container-lowest transition-colors group cursor-pointer" onClick={() => window.location.href='#/orders/detail'}>
+                                            <td class="py-4 px-stack-md font-medium text-primary">#ORD-4091</td>
+                                            <td class="py-4 px-stack-md">Rohan Desai</td>
+                                            <td class="py-4 px-stack-md text-on-surface-variant">Oct 24, 2024</td>
+                                            <td class="py-4 px-stack-md">₹1,850</td>
+                                            <td class="py-4 px-stack-md"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/30 border-dashed">Packed</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            );
+        }
+
+        function Products() {
+            return (
+                <div class="flex flex-col h-full relative">
+                    <div class="absolute top-0 right-0 w-1/2 h-96 bg-gradient-to-bl from-surface-container-highest/40 to-transparent pointer-events-none"></div>
+                    
+                    <header class="flex justify-between items-center px-margin-desktop py-stack-md pt-8 md:pt-12 relative z-10 shrink-0">
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface">Products</h2>
+                        <button class="bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md px-6 py-3 rounded-lg shadow-sm transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[20px]">add</span> Add Product
+                        </button>
+                    </header>
+
+                    <div class="px-margin-desktop py-stack-sm flex justify-between items-center relative z-10 border-b border-outline-variant/20 pb-6 shrink-0">
+                        <div class="flex flex-wrap gap-3">
+                            <button class="px-5 py-2 rounded-full border border-primary bg-primary-container/10 text-primary font-label-md text-label-md transition-colors">All</button>
+                            <button class="px-5 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:border-primary/50 hover:text-primary font-label-md text-label-md transition-colors bg-surface-container-lowest">Terracotta</button>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop pt-8 pb-24">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter max-w-container-max mx-auto">
+                            {/* Product Card 1 */}
+                            <article class="group bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden tactile-shadow hover:border-tertiary-fixed-dim/50 transition-all flex flex-col h-full">
+                                <div class="relative aspect-[4/5] overflow-hidden bg-surface-variant w-full p-4">
+                                    <img alt="Mitti Handi" class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo5kbV1GQzoTu7HtFR7gtwk5omqWzm46BZSZxbQiXz6N3nGVp-0sxUGFMmyvsXk5dnP4IPIKk3c_3TLaWQd0lO8D5mS5IuPOl387BhsHwflj7ay0YbuG5vGVYsH5_iCfJGiVqjhjJ6YOk6qpv2KnG8VoFGycemHCLRq6xELy_FCqTtsoaydEWaxRmWIjOJmKiXWEEAy3Ze1XnHSVxrO1o8pkLaXoE7Xll19bQIuVbbmA8-uEJfdpS5duVDH50j105O9UPDtRrn4S09"/>
+                                </div>
+                                <div class="p-5 flex flex-col flex-1">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h3 class="font-headline-md text-headline-md text-on-surface text-[20px] mb-1">Mitti Handi Set</h3>
+                                            <p class="font-caption text-caption text-outline">Terracotta</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-auto pt-4 border-t border-outline-variant/20 flex justify-between items-center">
+                                        <span class="font-body-md text-body-md text-on-surface font-medium">From ₹2,400</span>
+                                        <div class="flex items-center gap-3">
+                                            <Link to="/products/edit" class="p-1.5 rounded-md text-outline hover:bg-surface-container-low hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[18px]">edit</span>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function EditProduct() {
+            return (
+                 <div class="flex flex-col h-full overflow-hidden bg-background">
+                    <header class="h-[72px] bg-surface-container-lowest border-b border-outline-variant/20 flex items-center justify-between px-margin-desktop flex-shrink-0 z-10 shadow-[0_4px_24px_rgba(156,62,34,0.02)] hidden md:flex">
+                        <div class="flex items-center gap-2 text-on-surface-variant font-caption text-caption">
+                            <Link to="/products" class="hover:text-primary transition-colors">Products</Link>
+                            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                            <span class="text-on-surface">Mitti Handi Set</span>
+                        </div>
+                    </header>
+                    <div class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop relative pb-24">
+                        <div class="max-w-[1024px] mx-auto">
+                            <div class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-4 pt-4 md:pt-0">
+                                <div>
+                                    <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Edit product</h2>
+                                    <p class="font-body-md text-body-md text-on-surface-variant">Update details and pricing tiers for this item.</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg">
+                                <div class="lg:col-span-7 flex flex-col gap-stack-md">
+                                    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-gutter shadow-[0_8px_32px_rgba(156,62,34,0.03)] flex flex-col gap-stack-sm">
+                                        <h3 class="font-label-md text-label-md text-on-surface mb-2">Basic Details</h3>
+                                        <div>
+                                            <label class="block font-label-md text-label-md text-on-surface mb-2">Product Name</label>
+                                            <input class="tactile-input w-full bg-surface-container-lowest border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:border-tertiary focus:ring-1 focus:ring-tertiary outline-none transition-shadow" type="text" defaultValue="Mitti Handi Set"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-stack-lg pt-stack-md border-t border-outline-variant/30 flex justify-end gap-4 pb-stack-lg">
+                                <Link to="/products" class="px-6 py-3 rounded-lg border border-outline text-on-surface hover:bg-surface-container-high hover:border-tertiary transition-all font-label-md text-label-md shadow-sm">Cancel</Link>
+                                <button class="px-6 py-3 rounded-lg bg-primary text-on-primary hover:bg-surface-tint hover:shadow-md transition-all font-label-md text-label-md shadow-sm border border-transparent">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function Orders() {
+            return (
+                <div class="flex flex-col h-full overflow-y-auto pb-24">
+                     <header class="px-margin-mobile md:px-12 py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h1 class="font-display-lg text-display-lg text-on-background">Orders</h1>
+                            <p class="font-body-md text-body-md text-on-surface-variant mt-2">Manage and track your artisan hamper fulfillments.</p>
+                        </div>
+                    </header>
+                    <div class="px-margin-mobile md:px-12 pb-12 flex-1 flex flex-col">
+                        <div class="bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_rgba(156,62,34,0.03)] border border-outline-variant/30 overflow-hidden flex-1 flex flex-col relative">
+                            <div class="overflow-x-auto flex-1">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-surface-container-low border-b border-outline-variant/40">
+                                            <th class="font-label-md text-label-md text-on-surface-variant py-4 px-6 font-medium">Order #</th>
+                                            <th class="font-label-md text-label-md text-on-surface-variant py-4 px-6 font-medium">Customer</th>
+                                            <th class="font-label-md text-label-md text-on-surface-variant py-4 px-6 font-medium">Total</th>
+                                            <th class="font-label-md text-label-md text-on-surface-variant py-4 px-6 font-medium">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-outline-variant/20">
+                                        <tr class="group hover:bg-surface-container-low transition-colors cursor-pointer" onClick={() => window.location.href='#/orders/detail'}>
+                                            <td class="py-4 px-6 font-body-md text-body-md text-on-surface font-medium">#ORD-2026-0001</td>
+                                            <td class="py-4 px-6">Eleanor Vance</td>
+                                            <td class="py-4 px-6 font-body-md text-body-md text-on-surface font-medium">₹6,000</td>
+                                            <td class="py-4 px-6"><span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-surface-container-highest text-on-surface border border-outline-variant/30 border-dashed">Pending</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function OrderDetail() {
+            return (
+                <div class="flex flex-col h-full overflow-y-auto p-margin-mobile md:p-margin-desktop pb-24 max-w-container-max mx-auto w-full">
+                    <div class="mb-stack-md pt-4 md:pt-0">
+                        <Link to="/orders" class="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">
+                            <span class="material-symbols-outlined text-sm">arrow_back</span> Orders
+                        </Link>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-stack-sm mb-stack-lg border-b border-outline-variant/30 pb-stack-md">
+                        <div class="flex items-center gap-4">
+                            <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">Order ORD-2026-0001</h1>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full border border-outline-variant border-dashed text-on-surface-variant font-caption text-caption bg-surface-container">Pending</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col lg:flex-row gap-gutter">
+                        <div class="w-full lg:w-8/12 flex flex-col gap-stack-md">
+                            <div class="bg-surface-container-lowest rounded-xl ambient-shadow border border-outline-variant/30 p-stack-md">
+                                <h2 class="font-headline-md text-headline-md text-primary mb-stack-sm flex items-center gap-2">
+                                    <span class="material-symbols-outlined">person</span> Customer Details
+                                </h2>
+                                <p class="font-body-lg text-body-lg text-on-surface mt-4">Eleanor Vance</p>
+                            </div>
+                             <div class="bg-surface-container-lowest rounded-xl ambient-shadow border border-outline-variant/30 p-stack-md">
+                                <h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+                                    <span class="material-symbols-outlined">shopping_cart</span> Ordered Items
+                                </h2>
+                                <div class="mt-4 border-t border-outline-variant/30 pt-4 flex justify-between">
+                                    <span class="font-headline-md text-headline-md text-primary">Total</span>
+                                    <span class="font-headline-md text-headline-md text-primary">₹6,000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

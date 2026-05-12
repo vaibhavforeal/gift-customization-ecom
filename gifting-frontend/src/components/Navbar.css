@@ -1,0 +1,143 @@
+.navbar {
+  background-color: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--stack-sm) var(--margin-mobile);
+  border-bottom: 1px solid rgba(221, 192, 185, 0.2);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    padding: var(--stack-sm) var(--margin-desktop);
+  }
+}
+
+.navbar-icon-btn {
+  color: var(--primary);
+  padding: 8px;
+  transition: color 0.2s;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-icon-btn:hover {
+  color: var(--secondary);
+}
+
+.navbar-menu-btn {
+  display: flex;
+}
+
+@media (min-width: 768px) {
+  .navbar-menu-btn {
+    display: none;
+  }
+}
+
+.navbar-links {
+  display: none;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .navbar-links {
+    display: flex;
+  }
+}
+
+.navbar-nav {
+  display: flex;
+  gap: 32px;
+}
+
+.navbar-link {
+  color: var(--on-surface-variant);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+}
+
+.navbar-link:hover,
+.navbar-link.active {
+  color: var(--secondary);
+}
+
+.navbar-brand {
+  font-family: 'EB Garamond', serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--primary);
+  font-style: italic;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+.navbar-brand-center {
+  flex: 1;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .navbar-brand-center {
+    flex: none;
+  }
+}
+
+.navbar-brand-full {
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar-account-link {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .navbar-account-link {
+    display: block;
+  }
+}
+
+.navbar-bag {
+  position: relative;
+}
+
+.navbar-bag-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  border-radius: var(--radius-full);
+  padding: 0 4px;
+  pointer-events: none;
+  animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}

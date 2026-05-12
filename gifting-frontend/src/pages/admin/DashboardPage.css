@@ -1,0 +1,220 @@
+.dashboard-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--on-surface-variant);
+  padding: 48px;
+}
+
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Header */
+.dashboard-header {
+  background-color: var(--surface-container-lowest);
+  border-bottom: 1px solid rgba(221, 192, 185, 0.2);
+  height: 80px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--margin-desktop);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .dashboard-header { display: flex; }
+}
+
+.dashboard-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--stack-md);
+}
+
+.dashboard-date {
+  color: var(--on-surface-variant);
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-date { display: block; }
+}
+
+.dashboard-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  border: 1px solid rgba(221, 192, 185, 0.5);
+  transition: background-color 0.2s;
+}
+
+.dashboard-avatar:hover {
+  background-color: var(--surface-container-high);
+}
+
+/* Content */
+.dashboard-content {
+  flex: 1;
+  overflow: auto;
+  padding: var(--margin-mobile);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-lg);
+}
+
+@media (min-width: 768px) {
+  .dashboard-content {
+    padding: var(--margin-desktop);
+    padding-bottom: 32px;
+  }
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gutter);
+}
+
+@media (min-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.stat-card {
+  background-color: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  padding: var(--stack-md);
+  border: 1px solid rgba(221, 192, 185, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 128px;
+  transition: border-color 0.2s;
+}
+
+.stat-card:hover {
+  border-color: rgba(228, 194, 120, 0.5);
+}
+
+.stat-card-highlight {
+  background-color: rgba(254, 234, 229, 0.3);
+}
+
+.stat-card-error {
+  background-color: rgba(186, 26, 26, 0.03);
+  border-color: var(--error-container);
+}
+
+.stat-card-error:hover {
+  border-color: rgba(186, 26, 26, 0.3);
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.stat-label {
+  color: var(--on-surface-variant);
+}
+
+.stat-icon {
+  opacity: 0.7;
+}
+
+.stat-value {
+  color: var(--on-surface);
+}
+
+/* Recent orders */
+.recent-orders {
+  margin-top: 8px;
+}
+
+.recent-orders-header {
+  padding: var(--stack-md);
+  border-bottom: 1px solid rgba(221, 192, 185, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recent-orders-link {
+  color: var(--secondary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(152, 69, 67, 0.3);
+  transition: color 0.2s;
+}
+
+.recent-orders-link:hover {
+  color: var(--primary);
+  text-decoration-color: var(--primary);
+}
+
+/* Shared table */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.data-table thead tr {
+  background-color: rgba(254, 234, 229, 0.3);
+  border-bottom: 1px solid rgba(221, 192, 185, 0.4);
+}
+
+.data-table th {
+  padding: 12px var(--stack-md);
+  color: var(--on-surface-variant);
+  font-weight: 600;
+}
+
+.data-table td {
+  padding: 16px var(--stack-md);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid rgba(221, 192, 185, 0.2);
+  transition: background-color 0.15s;
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--surface-container-lowest);
+}
+
+.order-id-link {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.order-id-link:hover {
+  text-decoration: underline;
+}

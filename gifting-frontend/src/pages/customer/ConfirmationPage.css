@@ -1,0 +1,62 @@
+.confirmation-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.confirmation-main {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--stack-lg) var(--margin-mobile);
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-lg);
+}
+
+.confirmation-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: var(--stack-md);
+}
+
+.confirmation-icon {
+  margin-bottom: var(--stack-sm);
+  color: var(--tertiary-fixed-dim);
+}
+
+.confirmation-title {
+  color: var(--primary);
+  margin-bottom: var(--unit);
+}
+
+.confirmation-order-num {
+  color: var(--on-surface-variant);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.confirmation-details {
+  margin-top: var(--stack-sm);
+  display: flex;
+  gap: var(--stack-md);
+  color: var(--on-surface-variant);
+}
+
+.confirmation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-sm);
+  margin-top: auto;
+  padding-bottom: var(--stack-lg);
+}
+
+.confirmation-track-btn,
+.confirmation-home-btn {
+  width: 100%;
+  padding: 16px;
+}
