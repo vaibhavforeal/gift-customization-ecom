@@ -18,6 +18,37 @@ router.get("/health", (_req, res) => {
   res.json({ ok: true, time: new Date().toISOString() });
 });
 
+// Temporary setup endpoint — create admin without shell access.
+// POST /api/setup-admin { setupKey, email, password, name }
+// setupKey must match JWT_SECRET to prevent unauthorized use.
+// DELETE THIS ROUTE after creating your admin account.
+import bcrypt from "bcryptjs";
+import { prisma } from "../config/prisma";
+import { env } from "../config/env";
+
+router.post("/setup-admin", async (req, res) => {
+  try {
+    const { setupKey, email, password, name } = req.body;
+    if (!setupKey || setupKey !== env.jwtSecret) {
+      res.status(403).json({ error: "Invalid setup key" });
+      return;
+    }
+    if (!email || !password || password.length < 8) {
+      res.status(400).json({ error: "Email and password (min 8 chars) required" });
+      return;
+    }
+    const passwordHash = await bcrypt.hash(password, 10);
+    const admin = await prisma.admin.upsert({
+      where: { email },
+      update: { passwordHash, name: name || undefined },
+      create: { email, passwordHash, name: name || null },
+    });
+    res.json({ message: `Admin ready: ${admin.email}` });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ---- Public ----
 router.use("/products", productsRouter);
 router.use("/quote", quoteRouter);
