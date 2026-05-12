@@ -9,9 +9,23 @@ import { errorHandler } from "./middleware/error";
 export function createApp() {
   const app = express();
 
+  // Support comma-separated origins so both localhost and deployed Vercel URL work.
+  // e.g. FRONTEND_ORIGIN=http://localhost:5173,https://your-app.vercel.app
+  const allowedOrigins = env.frontendOrigin
+    .split(",")
+    .map((o) => o.trim())
+    .filter(Boolean);
+
   app.use(
     cors({
-      origin: env.frontendOrigin,
+      origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, curl, server-to-server)
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error(`CORS: origin ${origin} not allowed`));
+        }
+      },
       credentials: true,
     })
   );
