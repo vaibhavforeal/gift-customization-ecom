@@ -23,8 +23,27 @@ router.get("/health", (_req, res) => {
 // setupKey must match JWT_SECRET to prevent unauthorized use.
 // DELETE THIS ROUTE after creating your admin account.
 import bcrypt from "bcryptjs";
+import { execSync } from "child_process";
 import { prisma } from "../config/prisma";
 import { env } from "../config/env";
+
+// POST /api/setup-db — run prisma migrate deploy remotely
+router.post("/setup-db", (req, res) => {
+  try {
+    const { setupKey } = req.body;
+    if (!setupKey || setupKey !== env.jwtSecret) {
+      res.status(403).json({ error: "Invalid setup key" });
+      return;
+    }
+    const output = execSync("npx prisma migrate deploy", {
+      encoding: "utf-8",
+      timeout: 30000,
+    });
+    res.json({ message: "Migration complete", output });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message, output: err.stdout || "" });
+  }
+});
 
 router.post("/setup-admin", async (req, res) => {
   try {
