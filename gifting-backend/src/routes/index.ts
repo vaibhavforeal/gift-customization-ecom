@@ -35,7 +35,7 @@ router.post("/setup-db", (req, res) => {
       res.status(403).json({ error: "Invalid setup key" });
       return;
     }
-    const output = execSync("npx prisma migrate deploy", {
+    const output = execSync("npx prisma db push", {
       encoding: "utf-8",
       timeout: 30000,
     });
